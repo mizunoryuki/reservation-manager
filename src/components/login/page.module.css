@@ -1,0 +1,59 @@
+.loginForm {
+	width:fit-content;
+	border-radius: 20px;
+	padding: 30px 50px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+	box-shadow: var(--boxshadow);
+
+	>h2 {
+		font-size:35px;
+	}
+}
+
+.formFields {
+	display:flex;
+	flex-direction: column;
+	gap:15px;
+}
+
+.formField {
+	display:flex;
+	flex-direction:column;
+	gap:0;
+
+	>label {
+		font-size: 11px;
+		text-align: left;
+	}
+
+	>input {
+		border-radius:15px;
+		border: 1px solid ;
+		font-size: 17px;
+		padding:5px 10px;
+	}
+}
+
+.formActions {
+	display: flex;
+	flex-direction:row;
+	gap:15px;
+
+	>button {
+		cursor: pointer;
+		font-size: 20px;
+		background-color: #ffffff;
+		font-weight: bold;
+		padding: 5px 30px;
+		border-radius: 15px;
+		border: 1px solid;
+
+	&:hover {
+			background-color: #000000;
+			color: #ffffff;
+		}
+	}
+}
