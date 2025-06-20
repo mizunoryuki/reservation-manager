@@ -1,5 +1,9 @@
-export default function SignUp  ()  {
+import { SignUp } from "@/components/signup/page";
+import styles from "./page.module.css"
+export default function SignUpPage  ()  {
 	return (
-		<p>This page is a signUp page</p>
+		<div className={styles.page}>
+			<SignUp />
+		</div>
 	)
 }
