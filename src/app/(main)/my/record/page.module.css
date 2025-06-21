@@ -1,0 +1,45 @@
+.recordBox {
+	height: 100%;
+}
+.container {
+  padding: 20px;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  font-weight: bold;
+  margin-bottom: 8px;
+  padding: 0 1em;
+}
+
+.rowList {
+  max-height: calc(69px * 10);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  align-items: center;
+  padding: 1em;
+  margin-bottom: 12px;
+  font-weight: bold;
+
+  background-color: #d9d9d9;
+  border-radius: 10px;
+
+  >button {
+	border-radius: 10px;
+	background-color: #ffffff;
+	border: none;
+	padding: 8px;
+	font-weight: bold;
+	cursor: pointer;
+
+	&:hover {
+		color: #ffffff;
+		background-color: #000000;
+	}
+  }
+}
