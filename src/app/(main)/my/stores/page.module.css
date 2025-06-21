@@ -1,0 +1,40 @@
+.cards {
+	background-color: azure;
+	width: 100%;
+	display: grid;
+  	grid-template-columns: repeat(3, 1fr);
+  	gap: 10px; 
+}
+
+.card {
+	background-color: #ffffff;
+	border-radius: 15px;
+	box-shadow: var(--boxshadow);
+	padding: 8px;
+	font-weight: bold;
+	height: fit-content;
+
+	.address {
+		font-size: 12px;
+	}
+
+	.business_hours {
+		font-size: 15px;
+	}
+
+	.name {
+		font-size: 25px;
+	}
+
+	.details {
+		width: 100%;
+		font-size:10px;
+		line-clamp: 5;
+  		box-orient: vertical;
+  		overflow: hidden;
+  		text-overflow: ellipsis;
+  		line-height: 1.5;
+  		height: calc(1.5em * 5);
+  		word-break: break-word;
+	}
+}
