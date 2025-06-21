@@ -1,0 +1,41 @@
+.sidebar {
+	background-color: #FFF9F9;
+	border: 1px solid #c9c9c9;
+	padding: 20px;
+	font-weight: bold;
+	width:200px;
+	height: 100%;
+}
+
+.logo {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.nav a {
+  display: block;
+  color: #000000;
+  padding: 0.5em 0.75em 0.5em 1em;
+  text-decoration: none;
+  position: relative;
+}
+.nav a::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  bottom: 8px;
+  width: 4px;
+  background-color: transparent;
+  border-radius: 9999px;
+  transition: background-color 0.3s ease;
+}
+.nav a:hover {
+  background-color: #e9e7e7;
+  border-radius: 10px;
+  padding-left: 1.5em;
+}
+
+.nav a:hover::before {
+	background-color: #000000;
+}
