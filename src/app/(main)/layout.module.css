@@ -6,6 +6,7 @@
 }
 
 .contents {
+	box-sizing: border-box;
 	padding: 16px;
 	background-color: #fff9f9;
 	flex-grow: 1;
