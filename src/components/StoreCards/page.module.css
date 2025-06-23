@@ -36,4 +36,13 @@
   		height: calc(1.5em * 5);
   		word-break: break-word;
 	}
+
+	.button {
+		cursor: pointer;
+		background-color: transparent;
+		margin-top: 5px;
+		border-radius: 15px;
+		padding: 8px;
+		font-weight: bold;
+	}
 }

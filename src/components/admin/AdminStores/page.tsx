@@ -38,7 +38,7 @@ const storeInfo:StoreInfo[] = [
 export default function AdminStores () {
 	return (
 		<div>
-			<StoreCards StoreInfo={storeInfo}/>
+			<StoreCards StoreInfo={storeInfo} role="admin"/>
 		</div>
 	)
 }

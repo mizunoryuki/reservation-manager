@@ -1,5 +1,14 @@
+import StoreCards from "@/components/StoreCards/page"
 import styles from "./page.module.css"
-const StoreInfo = [
+
+type StoreInfo = {
+	name:string,
+	address:string,
+	business_hours:string,
+	details:string
+}
+
+const storeInfo:StoreInfo[] = [
 	{
 		name:"花屋",
 		address: "愛知県名古屋市342-1",
@@ -28,17 +37,6 @@ const StoreInfo = [
 
 export default function Stores () {
 	return (
-		<div className={styles.cards}>
-			{StoreInfo.map((value,index) => {
-				return (
-					<div key={index} className={styles.card}>
-						<p className={styles.address}>{value.address}</p>
-						<p className={styles.business_hours}>{value.business_hours}</p>
-						<p className={styles.name}>{value.name}</p>
-						<p className={styles.details}>{value.details}</p>
-					</div>
-				)
-			})}
-		</div>
+		<StoreCards StoreInfo={storeInfo}/>
 	)
 }
