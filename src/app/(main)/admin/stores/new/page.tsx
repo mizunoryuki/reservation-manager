@@ -1,5 +1,7 @@
+import AdminRegistration from "@/components/admin/AdminResitration/page";
+
 export default function NewStore () {
 	return (
-		<p>Register new store</p>
+		<AdminRegistration />
 	)
 } 
