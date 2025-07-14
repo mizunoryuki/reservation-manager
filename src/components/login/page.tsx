@@ -23,7 +23,6 @@ export const Login = () => {
       body: JSON.stringify({ Email: email, Password: password }),
     });
     if (res.ok) {
-      console.log("success");
       const loginRes = await res.json();
       const setCookieRes = await fetch("/api/cookies", {
         method: "POST",
@@ -32,11 +31,19 @@ export const Login = () => {
         },
         body: JSON.stringify({ access_token: loginRes.access_token }),
       });
-
       if (setCookieRes.ok) {
         const data = await setCookieRes.json();
-        console.log(data);
-        
+        const user_role: string = data.role!;
+        console.log(user_role);
+        if (user_role == "general") {
+          console.log("一般向けページ");
+          router.push("/my/stores");
+        } else if (user_role == "admin") {
+          console.log("管理者向けページ");
+          router.push("/admin/stores");
+        } else {
+          console.log("invaild role");
+        }
       } else {
         console.log("set cookie failed");
       }

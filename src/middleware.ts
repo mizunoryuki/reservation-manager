@@ -10,12 +10,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  try {
-    jwt.verify(token, process.env.JWT_KEY!);
-    return NextResponse.next();
-  } catch {
+  const decoded = jwt.decode(token);
+  if (!decoded) {
+    console.log("decode failure");
     return NextResponse.redirect(loginUrl);
   }
+  console.log("success");
+  return NextResponse.next();
 }
 
 // 適用するルート

@@ -26,17 +26,19 @@ export async function POST(req: NextRequest) {
 
   try {
     const decoded = jwt.verify(access_token, process.env.JWT_KEY!);
-    console.log("decoded:", decoded);
 
-    // もし role などを新たにCookieに保存したい場合
-    if (typeof decoded === "object" && decoded?.role) {
-      res.cookies.set("role", decoded.role, {
-        httpOnly: true,
-        path: "/",
-      });
-    }
+    const role =
+      typeof decoded === "object" && decoded !== null && "user_role" in decoded
+        ? (decoded as { user_role?: string }).user_role
+        : undefined;
 
-    return res;
+    return NextResponse.json(
+      {
+        message: "トークン保存と検証成功",
+        role,
+      },
+      { status: 200 }
+    );
   } catch (err) {
     console.error("トークン検証失敗:", err);
     return NextResponse.json({ error: "トークン不正" }, { status: 403 });
