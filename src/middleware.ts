@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("access_token")?.value;
   const loginUrl = new URL("/", request.url);
+  const pathname = request.nextUrl.pathname;
 
   if (!token) {
     return NextResponse.redirect(loginUrl);
@@ -15,7 +16,24 @@ export function middleware(request: NextRequest) {
     console.log("decode failure");
     return NextResponse.redirect(loginUrl);
   }
-  console.log("success");
+
+  const role =
+    typeof decoded === "object" && decoded !== null && "user_role" in decoded
+      ? (decoded as { user_role?: string }).user_role
+      : undefined;
+
+  if (!role) {
+    return NextResponse.redirect(loginUrl);
+  }
+
+  if (pathname.startsWith("/admin") && role !== "admin") {
+    return NextResponse.redirect(new URL("/my/stores/", request.url));
+  }
+
+  if (pathname.startsWith("/my") && role !== "general") {
+    return NextResponse.redirect(new URL("/admin/stores/", request.url));
+  }
+
   return NextResponse.next();
 }
 
