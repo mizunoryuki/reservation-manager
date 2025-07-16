@@ -2,12 +2,12 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-export default async function GET() {
+export async function GET() {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
 
-  if(!token) {
-	return NextResponse.json({error:"get cookie failure"})
+  if (!token) {
+    return NextResponse.json({ error: "get cookie failure" }, { status: 401 });
   }
 
   try {
@@ -18,16 +18,11 @@ export default async function GET() {
         ? (decoded as { user_role?: string }).user_role
         : undefined;
 
-	if(!role){
-		return NextResponse.json({error: "role undefined"},{status: 403})
-	}
+    if (!role) {
+      return NextResponse.json({ error: "role undefined" }, { status: 403 });
+    }
 
-    return NextResponse.json(
-      {
-        role,
-      },
-      { status: 200 }
-    );
+    return NextResponse.json({ role }, { status: 200 });
   } catch (err) {
     console.error("トークン検証失敗:", err);
     return NextResponse.json({ error: "トークン不正" }, { status: 403 });

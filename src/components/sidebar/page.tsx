@@ -27,7 +27,7 @@ export async function Sidebar() {
           <Link href="/my/stores">店舗一覧</Link>
           <Link href="/my/reservation">予約</Link>
           <Link href="/my/record">履歴</Link>
-          <Link href="/">ログアウト</Link>
+          <Link href="/logout">ログアウト</Link>
         </nav>
       </aside>
     );
@@ -39,7 +39,7 @@ export async function Sidebar() {
           <Link href="/my/stores">店舗一覧</Link>
           <Link href="/my/reservation">店舗追加</Link>
           <Link href="/my/record">履歴</Link>
-          <Link href="/">ログアウト</Link>
+          <Link href="/logout">ログアウト</Link>
         </nav>
       </aside>
     );

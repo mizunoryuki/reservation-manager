@@ -14,41 +14,33 @@ export const Login = () => {
   };
 
   const handleLogin = async () => {
-    //認証
     const res: Response = await fetch("http://localhost:4000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({ Email: email, Password: password }),
     });
+
     if (res.ok) {
-      const loginRes = await res.json();
-      const setCookieRes = await fetch("/api/cookies", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ access_token: loginRes.access_token }),
-      });
-      if (setCookieRes.ok) {
-        const data = await setCookieRes.json();
-        const user_role: string = data.role!;
-        console.log(user_role);
-        if (user_role == "general") {
-          console.log("一般向けページ");
-          router.push("/my/stores");
-        } else if (user_role == "admin") {
-          console.log("管理者向けページ");
-          router.push("/admin/stores");
-        } else {
-          console.log("invaild role");
-        }
+      const role_res = await fetch("/api/role");
+      if (!role_res.ok) {
+        console.log("get role failure");
+        return;
+      }
+
+      const { role } = await role_res.json();
+
+      if (role === "general") {
+        router.push("/my/stores");
+      } else if (role === "admin") {
+        router.push("/admin/stores");
       } else {
-        console.log("set cookie failed");
+        console.log("invalid role");
       }
     } else {
-      console.log("something wrong.");
+      console.log("login failed");
     }
   };
 
