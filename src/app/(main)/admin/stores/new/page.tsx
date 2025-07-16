@@ -8,7 +8,5 @@ export default async function NewStore() {
     redirect("/");
   }
 
-  console.log(token);
-
-  return <AdminRegistration token={token}/>;
+  return <AdminRegistration token={token} />;
 }
