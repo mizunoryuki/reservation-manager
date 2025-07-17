@@ -1,111 +1,46 @@
-'use client'
-import { useState } from 'react'
-import styles from './page.module.css'
+import ReservationForm from "@/components/ReservationForm/page";
+import { convertToHHMM } from "@/lib/convertToHHMM";
+import { getAccessTokenFromCookie } from "@/lib/getCookie";
+import { StoreData } from "@/type/store";
+import { redirect } from "next/navigation";
+import { Shop } from "@/type/reservation";
 
-const Shops = [
-  {
-    name: "花屋",
-    business_hours_start: "10:00",
-    business_hours_finish: "19:00",
-  },
-  {
-    name: "ケーキ屋",
-    business_hours_start: "8:00",
-    business_hours_finish: "19:00",
-  },
-  {
-    name: "団子屋",
-    business_hours_start: "12:00",
-    business_hours_finish: "16:00",
-  },
-  {
-    name: "クレープ屋",
-    business_hours_start: "8:00",
-    business_hours_finish: "24:00",
-  },
-];
+export default async function ReservationPage() {
+  //トークンの取得
+  const token = await getAccessTokenFromCookie();
+  if (!token) {
+    redirect("/");
+  }
 
-export default function Reservation() {
-  const today = new Date();
-  const formatDate = (date: Date) =>
-    date.toISOString().split("T")[0];
-  const initialDate = formatDate(today);
+  const res = await fetch("http://localhost:4000/stores", {
+    method: "GET",
+    cache: "no-store",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    return <p>店舗データの取得に失敗しました。</p>;
+  }
 
-  const maxDate = (() => {
-    const nextMonth = new Date(today);
-    nextMonth.setMonth(today.getMonth() + 1);
-    return formatDate(nextMonth);
-  })();
+  const storeList: StoreData[] = await res.json();
 
-  const [selectedStoreId, setSelectedStoreId] = useState(Shops.length > 0 ? 0 : -1);
-  const [selectedDate, setSelectedDate] = useState(initialDate);
+  //StoreData[]からShop[]に変換
+  const stores: Shop[] = storeList.map((store) => {
+    return {
+      store_id: store.ID,
+      name: store.Name,
+      business_hours_start: convertToHHMM(store.BusinessStartTime),
+      business_hours_finish: convertToHHMM(store.BusinessEndTime),
+    };
+  });
 
   return (
-    <div className={styles.container}>
-      {Shops.length === 0 ? (
+    <div>
+      {stores.length === 0 ? (
         <p>現在、予約できる店舗がございません。</p>
       ) : (
-        <>
-          <div className={styles.header}>
-            <div>
-              <p>店舗</p>
-              <select onChange={(e) => setSelectedStoreId(Number(e.target.value))}>
-                {Shops.map((value, index) => (
-                  <option key={index} value={index}>
-                    {value.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <p>予約日</p>
-              <input
-                type="date"
-                value={selectedDate}
-                min={initialDate}
-                max={maxDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className={styles.contents}>
-            {selectedStoreId >= 0 && (() => {
-              const store = Shops[selectedStoreId];
-              const shopStartHour = parseInt(store.business_hours_start.split(":")[0], 10);
-              const shopEndHour = parseInt(store.business_hours_finish.split(":")[0], 10);
-
-              const allSlots: string[] = [];
-              for (let hour = 8; hour < 22; hour++) {
-                if (hour >= shopStartHour && hour < shopEndHour) {
-                  const from = `${hour.toString().padStart(2, '0')}:00`;
-                  const to = `${(hour + 1).toString().padStart(2, '0')}:00`;
-                  allSlots.push(`${from} ~ ${to}`);
-                }
-              }
-
-              const columnCount = 3;
-              const columns: string[][] = Array.from({ length: columnCount }, (_, colIndex) =>
-                allSlots.filter((_, i) => i % columnCount === colIndex)
-              );
-
-              return (
-                <div className={styles.grid}>
-                  {columns.map((column, colIdx) => (
-                    <div key={colIdx} className={styles.column}>
-                      {column.map((slot, rowIdx) => (
-                        <div key={rowIdx} className={styles.slot}>
-                          <p>{slot}</p>
-                          <button onClick={() => console.log("予約:", slot)}>予約する</button>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              );
-            })()}
-          </div>
-        </>
+        <ReservationForm shops={stores} token={token}/>
       )}
     </div>
   );
