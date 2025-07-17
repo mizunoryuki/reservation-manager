@@ -19,7 +19,7 @@ export default function StoreCards({
             return (
               <div key={index} className={styles.card}>
                 <p className={styles.address}>{value.address}</p>
-                <p className={styles.business_hours}>{value.business_hours}</p>
+                <p className={styles.business_hours}>{value.businessHours}</p>
                 <p className={styles.name}>{value.name}</p>
                 <p className={styles.details}>{value.details}</p>
                 <button
@@ -42,7 +42,7 @@ export default function StoreCards({
             return (
               <div key={index} className={styles.card}>
                 <p className={styles.address}>{value.address}</p>
-                <p className={styles.business_hours}>{value.business_hours}</p>
+                <p className={styles.business_hours}>{value.businessHours}</p>
                 <p className={styles.name}>{value.name}</p>
                 <p className={styles.details}>{value.details}</p>
               </div>

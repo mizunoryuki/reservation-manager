@@ -28,10 +28,10 @@ export default async function ReservationPage() {
   //StoreData[]からShop[]に変換
   const stores: Shop[] = storeList.map((store) => {
     return {
-      store_id: store.ID,
+      storeId: store.ID,
       name: store.Name,
-      business_hours_start: convertToHHMM(store.BusinessStartTime),
-      business_hours_finish: convertToHHMM(store.BusinessEndTime),
+      businessHoursStart: convertToHHMM(store.BusinessStartTime),
+      businessHoursFinish: convertToHHMM(store.BusinessEndTime),
     };
   });
 

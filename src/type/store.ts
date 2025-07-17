@@ -11,6 +11,6 @@ export type StoreData = {
 export type StoreInfo = {
   name: string;
   address: string;
-  business_hours: string;
+  businessHours: string;
   details: string;
 };

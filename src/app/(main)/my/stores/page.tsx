@@ -1,15 +1,8 @@
 import StoreCards from "@/components/StoreCards/page";
 import { formatTimeRangeJST } from "@/lib/formatTimeRange";
 import { getAccessTokenFromCookie } from "@/lib/getCookie";
-import { StoreData } from "@/type/store";
+import { StoreData, StoreInfo } from "@/type/store";
 import { redirect } from "next/navigation";
-
-type StoreInfo = {
-  name: string;
-  address: string;
-  business_hours: string;
-  details: string;
-};
 
 // const storeInfo: StoreInfo[] = [
 //   {
@@ -73,7 +66,7 @@ export default async function Stores() {
     return {
       name: store.Name,
       address: store.Address,
-      business_hours: business_hours,
+      businessHours: business_hours,
       details: store.Details.Valid
         ? store.Details.String
         : "説明が追加されていません",

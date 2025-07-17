@@ -23,8 +23,8 @@ export default function ReservationForm({ shops, token }: Props) {
   const [selectedDate, setSelectedDate] = useState(initialDate);
 
   const store = shops[selectedElemId];
-  const shopStartHour = parseInt(store.business_hours_start.split(":")[0], 10);
-  const shopEndHour = parseInt(store.business_hours_finish.split(":")[0], 10);
+  const shopStartHour = parseInt(store.businessHoursStart.split(":")[0], 10);
+  const shopEndHour = parseInt(store.businessHoursFinish.split(":")[0], 10);
 
   const allSlots: string[] = [];
   for (let hour = 8; hour < 22; hour++) {
@@ -50,7 +50,7 @@ export default function ReservationForm({ shops, token }: Props) {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        store_id: shops[selectedElemId].store_id,
+        store_id: shops[selectedElemId].storeId,
         visit_date: selectedDate,
         visit_time: slot.split("~")[0].trimEnd(),
       }),

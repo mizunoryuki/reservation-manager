@@ -63,7 +63,7 @@ export default async function AdminStores({ token }: Props) {
     return {
       name: store.Name,
       address: store.Address,
-      business_hours: business_hours,
+      businessHours: business_hours,
       details: store.Details.Valid
         ? store.Details.String
         : "説明が追加されていません",
