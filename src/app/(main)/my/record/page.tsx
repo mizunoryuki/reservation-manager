@@ -28,7 +28,6 @@ export default async function Record() {
   if (!Array.isArray(reservationArray)) {
     return <p>予約情報がありません</p>;
   }
-  console.log(reservationArray);
 
   const reservations: ReservedInfo[] = reservationArray.map((reservation) => {
     return {
@@ -39,7 +38,6 @@ export default async function Record() {
       storeName: reservation.StoreName,
     };
   });
-  //   console.log(reservations);
 
   return (
     <div>
