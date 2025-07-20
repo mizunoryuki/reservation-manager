@@ -9,6 +9,7 @@ export type StoreData = {
 };
 
 export type StoreInfo = {
+	id:number;
   name: string;
   address: string;
   businessHours: string;

@@ -61,6 +61,7 @@ export default async function AdminStores({ token }: Props) {
       store.BusinessEndTime
     );
     return {
+      id: store.ID,
       name: store.Name,
       address: store.Address,
       businessHours: business_hours,
@@ -72,7 +73,7 @@ export default async function AdminStores({ token }: Props) {
 
   return (
     <div>
-      <StoreCards StoreInfo={storeInfo} role="admin" />
+      <StoreCards StoreInfo={storeInfo} role="admin" token={token} />
     </div>
   );
 }

@@ -64,6 +64,7 @@ export default async function Stores() {
       store.BusinessEndTime
     );
     return {
+      id: store.ID,
       name: store.Name,
       address: store.Address,
       businessHours: business_hours,
@@ -73,5 +74,5 @@ export default async function Stores() {
     };
   });
 
-  return <StoreCards StoreInfo={storeInfo} />;
+  return <StoreCards StoreInfo={storeInfo} token={token} />;
 }
