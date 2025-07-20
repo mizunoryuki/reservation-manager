@@ -1,96 +1,49 @@
-"use client";
-import styles from "./page.module.css";
-const ReserveInfo = [
-  {
-    reservedAt: "2025-07-17 09:00:00",
-    visitDate: "2025-07-17 09:00:00",
-    storeName: "花屋",
-  },
-  {
-    reservedAt: "2025-06-01",
-    visitDate: "2025-06-10",
-    storeName: "花屋",
-  },
-  {
-    reservedAt: "2025-06-01",
-    visitDate: "2025-06-10",
-    storeName: "花屋",
-  },
-  {
-    reservedAt: "2025-06-01",
-    visitDate: "2025-06-10",
-    storeName: "花屋",
-  },
-  {
-    reservedAt: "2025-06-01",
-    visitDate: "2025-06-10",
-    storeName: "花屋",
-  },
-  {
-    reservedAt: "2025-06-01",
-    visitDate: "2025-06-10",
-    storeName: "花屋",
-  },
-  {
-    reservedAt: "2025-06-01",
-    visitDate: "2025-06-10",
-    storeName: "花屋",
-  },
-  {
-    reservedAt: "2025-06-01",
-    visitDate: "2025-06-10",
-    storeName: "花屋",
-  },
-  {
-    reservedAt: "2025-06-01",
-    visitDate: "2025-06-10",
-    storeName: "花屋",
-  },
-  {
-    reservedAt: "2025-06-01",
-    visitDate: "2025-06-10",
-    storeName: "花屋",
-  },
-  {
-    reservedAt: "2025-06-01",
-    visitDate: "2025-06-10",
-    storeName: "花屋",
-  },
-  {
-    reservedAt: "2025-06-01",
-    visitDate: "2025-06-10",
-    storeName: "花屋",
-  },
-];
+import RecordCard from "@/components/recordCard/page";
+import { getAccessTokenFromCookie } from "@/lib/getCookie";
+import { ReservedData, ReservedInfo } from "@/type/record";
+import { redirect } from "next/navigation";
 
-export default function Record() {
-  return (
-    <div className={styles.recordBBox}>
-      <h2>
-        今までの予約件数:<span>{ReserveInfo.length}</span>
-      </h2>
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <span>利用日</span>
-          <span>予約日</span>
-          <span>店舗名</span>
-          <span>キャンセル</span>
-        </div>
-        <div className={styles.rowList}>
-          {ReserveInfo.map((value, index) => {
-            return (
-              <div key={index} className={styles.row}>
-                <span>{value.visitDate}</span>
-                <span>{value.reservedAt}</span>
-                <span>{value.storeName}</span>
-                <button onClick={() => console.log("キャンセル")}>
-                  キャンセル
-                </button>
-              </div>
-            );
-          })}
-        </div>
+export default async function Record() {
+  const token = await getAccessTokenFromCookie();
+  if (!token) {
+    redirect("/");
+  }
+
+  const res = await fetch("http://localhost:4000/user/reservations", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    return (
+      <div>
+        <p>店舗の情報取得に失敗しました</p>
       </div>
+    );
+  }
+  const reservationArray: ReservedData[] = await res.json();
+  //   const reservations: ReservedInfo[] = await res.json();
+  if (!Array.isArray(reservationArray)) {
+    return <p>予約情報がありません</p>;
+  }
+  console.log(reservationArray);
+
+  const reservations: ReservedInfo[] = reservationArray.map((reservation) => {
+    return {
+      reservedId: reservation.ID,
+      reservedAt: reservation.ReservedAt,
+      visitDate: reservation.VisitDate,
+      storeId: reservation.StoreID,
+      storeName: reservation.StoreName,
+    };
+  });
+  //   console.log(reservations);
+
+  return (
+    <div>
+      <RecordCard reservations={reservations} token={token} />
     </div>
   );
 }
