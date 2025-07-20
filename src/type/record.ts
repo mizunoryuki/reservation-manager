@@ -3,7 +3,7 @@ export type ReservedInfo = {
   reservedAt: string;
   visitDate: string;
   storeId: number;
-  storeName:string;
+  storeName: string;
 };
 
 export type ReservedData = {
@@ -13,4 +13,14 @@ export type ReservedData = {
   StoreName: string;
   VisitDate: string;
   ReservedAt: string;
+};
+
+export type AdminReservedData = {
+  ID: number;
+  UserId: number;
+  StoreID: number;
+  VisitDate: string;
+  ReservedAt: string;
+  StoreName: string;
+  UserName: string;
 };
