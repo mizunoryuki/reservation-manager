@@ -1,26 +1,43 @@
 "use client";
-import { useState } from "react";
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const loginSchema = z.object({
+  email: z
+    .string()
+    .email({ message: "正しいメールアドレスを入力してください" }),
+  password: z
+    .string()
+    .min(6, { message: "パスワードは6文字以上で入力してください" }),
+});
+
+type LoginFormInputs = z.infer<typeof loginSchema>;
 
 export const Login = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  //新規登録画面に遷移
-  const handleRegister = () => {
-    router.push("/signUp");
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const handleLogin = async () => {
+  const onSubmit = async (data: LoginFormInputs) => {
     const res: Response = await fetch("http://localhost:4000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify({ Email: email, Password: password }),
+      body: JSON.stringify({
+        Email: data.email,
+        Password: data.password,
+      }),
     });
 
     if (res.ok) {
@@ -31,7 +48,6 @@ export const Login = () => {
       }
 
       const { role } = await role_res.json();
-
       if (role === "general") {
         router.push("/my/stores");
       } else if (role === "admin") {
@@ -44,36 +60,47 @@ export const Login = () => {
     }
   };
 
+  const handleRegister = () => {
+    router.push("/signUp");
+  };
+
   return (
     <div className={styles.loginForm}>
       <h2>ログイン</h2>
-      <div className={styles.formFields}>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.formFields}>
         <div className={styles.formField}>
           <label htmlFor="email">E-mail</label>
           <input
             id="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             placeholder="example@example.com"
+            {...register("email")}
           />
+          {errors.email && (
+            <p className={styles.error}>{errors.email.message}</p>
+          )}
         </div>
+
         <div className={styles.formField}>
           <label htmlFor="password">Password</label>
           <input
             id="password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
             placeholder="6文字以上"
+            {...register("password")}
           />
+          {errors.password && (
+            <p className={styles.error}>{errors.password.message}</p>
+          )}
         </div>
-      </div>
 
-      <div className={styles.formActions}>
-        <button onClick={handleLogin}>ログイン</button>
-        <button onClick={handleRegister}>新規登録</button>
-      </div>
+        <div className={styles.formActions}>
+          <button type="submit">ログイン</button>
+          <button type="button" onClick={handleRegister}>
+            新規登録
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
