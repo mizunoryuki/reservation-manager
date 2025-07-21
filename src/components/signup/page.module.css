@@ -1,63 +1,69 @@
 .loginForm {
-	width:fit-content;
-	border-radius: 20px;
-	padding: 30px 50px;
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	gap: 40px;
-	box-shadow: var(--boxshadow);
+  width: fit-content;
+  border-radius: 20px;
+  padding: 30px 50px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  box-shadow: var(--boxshadow);
 
-	>h2 {
-		font-size:35px;
-	}
+  & > h2 {
+    font-size: 35px;
+  }
 }
 
 .formFields {
-	display:flex;
-	flex-direction: column;
-	gap:15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .formField {
-	display:flex;
-	flex-direction:column;
-	gap:0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 
-	>label {
-		font-size: 11px;
-		text-align: left;
-	}
+  & > label {
+    font-size: 11px;
+    text-align: left;
+  }
 
-	>input {
-		border-radius:15px;
-		border: 1px solid ;
-		font-size: 17px;
-		padding:5px 10px;
-	}
+  & > input {
+    border-radius: 15px;
+    border: 1px solid;
+    font-size: 17px;
+    padding: 5px 10px;
+  }
 
-	>input[type='email'] {
-		width: 400px;
-	}
+  & > input[type="email"] {
+    width: 400px;
+  }
 }
 
 .formActions {
-	display: flex;
-	flex-direction:row;
-	justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 
-	>button {
-		cursor: pointer;
-		font-size: 20px;
-		background-color: #ffffff;
-		font-weight: bold;
-		padding: 5px 30px;
-		border-radius: 15px;
-		border: 1px solid;
+  & > button {
+    cursor: pointer;
+    font-size: 20px;
+    background-color: #ffffff;
+    font-weight: bold;
+    padding: 5px 30px;
+    border-radius: 15px;
+    border: 1px solid;
 
-	&:hover {
-			background-color: #000000;
-			color: #ffffff;
-		}
-	}
+    &:hover {
+      background-color: #000000;
+      color: #ffffff;
+    }
+  }
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 4px;
 }
