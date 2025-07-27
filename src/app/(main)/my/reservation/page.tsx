@@ -26,7 +26,7 @@ export default async function ReservationPage() {
   const storeList: StoreData[] = await res.json();
 
   //StoreData[]からShop[]に変換
-  const stores: Shop[] = storeList.map((store) => {
+  const stores: Shop[] = (storeList || []).map((store) => {
     return {
       storeId: store.ID,
       name: store.Name,
@@ -40,7 +40,7 @@ export default async function ReservationPage() {
       {stores.length === 0 ? (
         <p>現在、予約できる店舗がございません。</p>
       ) : (
-        <ReservationForm shops={stores} token={token}/>
+        <ReservationForm shops={stores} token={token} />
       )}
     </div>
   );

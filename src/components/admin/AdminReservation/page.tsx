@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function AdminReservation({
-  reservations: initialReservations,
+  reservations: initialReservations = [],
   token,
 }: Props) {
   const [reservations, setReservations] = useState(initialReservations);
@@ -28,13 +28,13 @@ export default function AdminReservation({
       return;
     }
 
-    // 成功したら画面上のリストから削除
     setReservations((prev) => prev.filter((r) => r.ID !== id));
   };
+
   return (
     <div className={styles.recordBBox}>
       <h2>
-        今までの予約件数:<span>{reservations.length}</span>
+        今までの予約件数:<span>{reservations ? reservations.length : 0}</span>
       </h2>
       <div className={styles.container}>
         <div className={styles.header}>
@@ -45,19 +45,25 @@ export default function AdminReservation({
           <span>キャンセル</span>
         </div>
         <div className={styles.rowList}>
-          {reservations.map((reservation, index) => {
-            return (
-              <div key={index} className={styles.row}>
-                <span>{reservation.VisitDate}</span>
-                <span>{reservation.ReservedAt}</span>
-                <span>{reservation.UserName}</span>
-                <span>{reservation.StoreName}</span>
-                <button onClick={() => handleDelete(reservation.ID)}>
-                  キャンセル
-                </button>
-              </div>
-            );
-          })}
+          {/* ▼ ここから変更 ▼ */}
+          {reservations.length === 0 ? (
+            <p className={styles.noReservations}>表示する予約がありません</p>
+          ) : (
+            reservations.map((reservation, index) => {
+              return (
+                <div key={index} className={styles.row}>
+                  <span>{reservation.VisitDate}</span>
+                  <span>{reservation.ReservedAt}</span>
+                  <span>{reservation.UserName}</span>
+                  <span>{reservation.StoreName}</span>
+                  <button onClick={() => handleDelete(reservation.ID)}>
+                    キャンセル
+                  </button>
+                </div>
+              );
+            })
+          )}
+          {/* ▲ ここまで変更 ▲ */}
         </div>
       </div>
     </div>

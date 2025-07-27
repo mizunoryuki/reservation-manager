@@ -25,5 +25,10 @@ export default async function Reservation() {
   }
   const reservationArray: AdminReservedData[] = await res.json();
 
-  return <AdminReservation reservations={reservationArray} token={token}/>;
+  return (
+    <AdminReservation
+      reservations={reservationArray ? reservationArray : []}
+      token={token}
+    />
+  );
 }
