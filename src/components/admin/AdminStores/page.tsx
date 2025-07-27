@@ -55,7 +55,7 @@ export default async function AdminStores({ token }: Props) {
 
   const storeArray: StoreData[] = await res.json();
 
-  const storeInfo: StoreInfo[] = storeArray.map((store) => {
+  const storeInfo: StoreInfo[] = (storeArray || []).map((store) => {
     const business_hours = formatTimeRangeJST(
       store.BusinessStartTime,
       store.BusinessEndTime

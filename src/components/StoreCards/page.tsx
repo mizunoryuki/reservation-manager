@@ -31,6 +31,10 @@ export default function StoreCards({
     setStores((prev) => prev.filter((r) => r.id !== id));
   };
 
+  if (stores.length === 0) {
+    return <div>表示できる店舗がありません</div>;
+  }
+
   if (role === "admin") {
     return (
       <div>
